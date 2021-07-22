@@ -10,5 +10,5 @@ app.use(bodyParser.json())
 app.use(router)
 
 app.listen(3333, () => {
-  console.log('htpp://localhost:3333')
+  console.log('http://localhost:3333')
 })

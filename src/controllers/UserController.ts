@@ -20,7 +20,13 @@ class UserController {
       await client.user.create({
         data: {
           email,
-          password: passCrypt
+          password: passCrypt,
+          profile: {
+            create: {
+              name: null,
+              bio: null
+            }
+          }
         }
       })
       response.statusCode = 201
@@ -72,7 +78,7 @@ class UserController {
       } else {
         response.statusCode = 404
         response.json({
-          msg: 'E-mail ou senha incorretos'
+          msg: 'Email ou senha incorreta'
         })
       }
     } catch (error) {
