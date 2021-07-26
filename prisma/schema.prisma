@@ -11,12 +11,22 @@ generator client {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  password String
-  profile  Profile[]
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  profile      Profile[]
+  refreshToken RefreshToken?
 
   @@map("users")
+}
+
+model RefreshToken {
+  id        Int  @id @default(autoincrement())
+  expiresIn Int
+  user      User @relation(fields: [userId], references: [id])
+  userId    Int
+
+  @@map("refreshToken")
 }
 
 model Profile {
