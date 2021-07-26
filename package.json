@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-    "test": "jest",
     "build": "babel src --extencions \".js,.ts\" -out-dir dist --copy-files --no-copy-ignore",
     "start": "node dist/server.js"
   },
@@ -35,6 +34,7 @@
   "dependencies": {
     "@prisma/client": "2.27.0",
     "bcrypt": "^5.0.1",
+    "dayjs": "^1.10.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1"
