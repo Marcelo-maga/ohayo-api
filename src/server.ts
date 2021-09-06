@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use(router)
-app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors({ credentials: true }))
 
 app.listen(env.port, () => {
   console.log(`http://localhost:${env.port}`)
