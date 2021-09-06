@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-    "build": "babel src --extencions \".js,.ts\" -out-dir dist --copy-files --no-copy-ignore",
+    "build": "tsc",
     "start": "node dist/server.js"
   },
   "devDependencies": {
