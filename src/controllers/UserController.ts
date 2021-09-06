@@ -6,6 +6,7 @@ import env from '../config/env'
 
 class UserController {
   async store (request: Request, response: Response) {
+    response.header('Access-Control-Allow-Origin', '*') 
     const { email, password } = request.body
 
     const emailExists = await client.user.findFirst({ where: { email } })
