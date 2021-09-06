@@ -2,6 +2,7 @@ import { client } from '../prisma/client'
 import { hash, compare } from 'bcrypt'
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import env from '../config/env'
 
 class UserController {
   async store (request: Request, response: Response) {
@@ -9,6 +10,7 @@ class UserController {
 
     const emailExists = await client.user.findFirst({ where: { email } })
 
+    // verifica se o email já foi cadastrado
     if (emailExists) {
       response.statusCode = 400
       response.json({
@@ -16,7 +18,8 @@ class UserController {
       })
       return
     } try {
-      const passCrypt = await hash(password, 8)
+      const passCrypt = await hash(password, 8) // cripitografia da senha
+      // criação do usuario e perfil no banco de dados
       await client.user.create({
         data: {
           email,
@@ -59,7 +62,7 @@ class UserController {
       }
       // gera JWT
       if (passwordMatch) {
-        jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET,
+        jwt.sign({ id: user.id, email: user.email }, env.JWT_SECRET,
           { expiresIn: '20s' }, (error, token) => {
             if (error) {
               response.statusCode = 400
