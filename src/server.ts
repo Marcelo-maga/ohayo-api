@@ -9,8 +9,12 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+app.use((request, response, next) => {
+  app.use(cors())
+  next()
+})
+
 app.use(router)
-app.use(cors({ credentials: true }))
 
 app.listen(env.port, () => {
   console.log(`http://localhost:${env.port}`)
