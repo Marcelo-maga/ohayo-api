@@ -1,7 +1,7 @@
 import express from 'express'
 import { router } from './routes'
 import bodyParser from 'body-parser'
-import cors from 'cors'
+const cors = require('cors')
 import env from './config/env'
 
 const app = express()
@@ -9,13 +9,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use((request, response, next) => {
-  response.header('Access-Control-Allow-Origin', '*')
-  response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-  app.use(cors())
-  next()
-})
-
+app.use(cors())
 app.use(router)
 
 app.listen(env.port, () => {
