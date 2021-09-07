@@ -10,6 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use((request, response, next) => {
+  response.header('Access-Control-Allow-Origin', '*')
+  response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   app.use(cors())
   next()
 })
