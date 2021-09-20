@@ -14,9 +14,9 @@ model User {
   id           Int           @id @default(autoincrement())
   email        String?       @unique
   password     String?
+
   profile      Profile[]
   projects     Project[]
-
   refreshToken RefreshToken?
 
   @@map("users")
@@ -44,10 +44,10 @@ model Profile {
 
 model Project {
   id     Int     @id @default(autoincrement())
-  name   String?
-  desc   String
+  name   String  @unique
+  desc   String?
 
-  userId Int     @unique
+  userId Int     
   user   User    @relation(fields: [userId], references: [id])
 
   @@map("projects")
