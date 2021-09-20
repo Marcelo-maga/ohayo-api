@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "build": "tsc",
-    "start": "yarn prisma migrate deploy && node dist/server.js"
+    "start": "node dist/server.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
