@@ -64,7 +64,7 @@ class UserController {
       // gera JWT
       if (passwordMatch) {
         jwt.sign({ id: user.id, email: user.email }, env.JWT_SECRET,
-          { expiresIn: '20s' }, (error, token) => {
+          { expiresIn: '24h' }, (error, token) => {
             if (error) {
               response.statusCode = 400
               response.json({
