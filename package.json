@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-    "build": "tsc",
+    "build": "tsc &&  yarn prisma migrate deploy",
     "start": "node dist/server.js"
   },
   "devDependencies": {
