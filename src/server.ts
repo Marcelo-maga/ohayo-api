@@ -1,7 +1,7 @@
 import express from 'express'
 import { router } from './routes'
 import bodyParser from 'body-parser'
-const cors = require('cors')
+import cors from 'cors'
 import env from './config/env'
 
 const app = express()
