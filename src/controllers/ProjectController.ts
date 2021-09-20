@@ -1,19 +1,38 @@
 import { Request, Response } from 'express'
-// import { client } from 'src/prisma/client'
-import env from '@config/env'
-import { verify } from 'jsonwebtoken'
+import { client } from 'src/prisma/client'
+import jwtDecod from 'jwt-decode'
 
 class ProjectController {
-  async createProject (request: Request, response: Response, token) {
-    // const { projectName, projectDesc } = request.body
+  async createProject (request: Request, response: Response) {
+    const token = request.headers.authorization
+    const { projectName, projectDesc } = request.body
+    const decode = jwtDecod(token)
 
-    const getUserEmail = verify(token, env.JWT_SECRET)
+    const project = await client.project.findFirst({ where: { name: projectName } })
 
-    console.log(getUserEmail.email)
-
-    // const user = await client.user.findFirst({
-    //   where: { email }
-    // })
+    if (project) {
+      response.statusCode = 400
+      response.json({
+        error: 'Projeto já criado!'
+      })
+      return
+    } try {
+      await client.user.update({
+        where: { email: decode.email },
+        data: {
+          projects: {
+            create: {
+              name: projectName,
+              desc: projectDesc
+            }
+          }
+        }
+      })
+      response.statusCode = 201
+      response.send('Projeto criado com sucesso!')
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
