@@ -1,12 +1,16 @@
 import { Request, Response } from 'express'
 import { client } from 'src/prisma/client'
-import jwtDecod from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 
+interface Types {
+  email: string
+}
 class ProjectController {
   async createProject (request: Request, response: Response) {
     const token = request.headers.authorization
     const { projectName, projectDesc } = request.body
-    const decode = jwtDecod(token)
+
+    const decode = jwtDecode<Types>(token)
 
     const project = await client.project.findFirst({ where: { name: projectName } })
 
