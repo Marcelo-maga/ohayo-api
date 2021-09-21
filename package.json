@@ -1,7 +1,7 @@
 {
   "name": "api-ohayo",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "src/server.ts",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { client } from 'src/prisma/client'
+import { client } from '../prisma/client'
 import jwtDecode from 'jwt-decode'
 
 interface Types {
