@@ -1,5 +1,5 @@
 import { client } from '../prisma/client'
-import { hash, compare } from 'bcrypt'
+import { hash, compare } from 'bcryptjs'
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import env from '../config/env'
@@ -74,7 +74,6 @@ class UserController {
             } else {
               response.statusCode = 200
               response.json({
-                message: 'Sucesso!',
                 token
               })
             }
