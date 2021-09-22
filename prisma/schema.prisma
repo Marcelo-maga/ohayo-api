@@ -44,7 +44,7 @@ model Profile {
 
 model Project {
   id     Int     @id @default(autoincrement())
-  name   String  @unique
+  name   String  
   desc   String?
 
   userId Int     

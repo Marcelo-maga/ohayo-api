@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode'
 
 interface Types {
   email: string
+  id: number
 }
 class ProjectController {
   async createProject (request: Request, response: Response) {
@@ -12,7 +13,9 @@ class ProjectController {
 
     const decode = jwtDecode<Types>(token)
 
-    const project = await client.project.findFirst({ where: { name: projectName } })
+    const project = await client.project.findFirst({
+      where: { userId: decode.id, name: projectName }
+    })
 
     if (project) {
       response.statusCode = 400
@@ -20,7 +23,8 @@ class ProjectController {
         error: 'Projeto já criado!'
       })
       return
-    } try {
+    }
+    try {
       await client.user.update({
         where: { email: decode.email },
         data: {
@@ -33,7 +37,7 @@ class ProjectController {
         }
       })
       response.statusCode = 201
-      response.send('Projeto criado com sucesso!')
+      response.json({ message: 'Projeto criado com sucesso!' })
     } catch (error) {
       console.log(error)
     }
