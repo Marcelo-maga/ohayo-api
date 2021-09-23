@@ -3,14 +3,14 @@ import { verify } from 'jsonwebtoken'
 import env from '../config/env'
 
 module.exports = (request: Request, response: Response, next: NextFunction) => {
-  const authToken = request.headers.authorization
-  // verifica se existe token
-  if (!authToken) {
+  const requestAuthToken = request.headers.authorization
+  // verifica se chegou um token
+  if (!requestAuthToken) {
     return response.status(401).json({
       message: 'Sem token!'
     })
   }
-  const [, token] = authToken.split(' ')
+  const [, token] = requestAuthToken.split(' ')
   try {
     // verifica se o token é valido
     verify(token, env.JWT_SECRET)
