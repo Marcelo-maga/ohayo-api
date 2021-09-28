@@ -15,5 +15,8 @@
         "@typescript-eslint"
     ],
     "rules": {
+      "no-use-before-define": 0,
+      "react/prop-types": "off",
+      "no-unused-vars": 1
     }
 }

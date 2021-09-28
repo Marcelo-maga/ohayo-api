@@ -11,22 +11,22 @@ class UserController {
       password
     } = request.body
 
-    const emailExists = await client.user.findFirst({ where: { email } })
+    const userEmailExisits = await client.user.findFirst({ where: { email } })
 
     // verifica se o email já foi cadastrado
-    if (emailExists) {
+    if (userEmailExisits) {
       response.statusCode = 400
       response.json({
         error: 'Email já cadastrado!'
       })
       return
     } try {
-      const passCrypt = await hash(password, 8) // cripitografia da senha
+      const passwordCrypt = await hash(password, 8) // cripitografia da senha
       // criação do usuario e perfil no banco de dados
       await client.user.create({
         data: {
           email,
-          password: passCrypt,
+          password: passwordCrypt,
           profile: {
             create: {
               name: null,
@@ -36,15 +36,18 @@ class UserController {
         }
       })
       response.statusCode = 201
-      response.send('Conta criada com sucesso!')
+      response.json({ message: 'Conta criada com sucesso!' })
     } catch (error) {
       response.statusCode = 400
-      response.send('Deu bo')
+      response.json({ error: 'Seu Usuario não pode ser criado!' })
     }
   }
 
   async login (request: Request, response: Response) {
-    const { email, password } = request.body
+    const {
+      email,
+      password
+    } = request.body
 
     // verifica se o usuario existe
     const user = await client.user.findFirst({ where: { email } })
@@ -90,6 +93,36 @@ class UserController {
       response.statusCode = 400
       response.send('Deu bo')
       console.log(error)
+    }
+  }
+
+  async githubAuth (request: Request, response: Response) {
+    const { GitHubUser } = request.body
+
+    console.log(GitHubUser)
+    const userEmailExisits = await client.user.findUnique({ where: { email: GitHubUser.email } })
+
+    if (userEmailExisits) {
+      response.statusCode = 200
+      response.json({
+        message: 'Sucesso'
+      })
+    }
+    try {
+      await client.user.create({
+        data: {
+          email: GitHubUser.email,
+          acessTokenGH: GitHubUser.stsTokenManager.accessToken,
+          profile: {
+            create: {
+              name: GitHubUser.displayName,
+              photo: GitHubUser.photoURL
+            }
+          }
+        }
+      })
+    } catch (error) {
+
     }
   }
 }

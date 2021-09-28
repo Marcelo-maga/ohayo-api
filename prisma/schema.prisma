@@ -15,6 +15,8 @@ model User {
   email        String?       @unique
   password     String?
 
+  acessTokenGH String?
+
   profile      Profile[]
   projects     Project[]
   refreshToken RefreshToken?
@@ -35,6 +37,8 @@ model Profile {
   id     Int     @id @default(autoincrement())
   name   String?
   bio    String?
+  photo  String?
+ 
 
   userId Int     @unique
   user   User    @relation(fields: [userId], references: [id])

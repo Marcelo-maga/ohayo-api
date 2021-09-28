@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 const UserController = require('./controllers/UserController')
 const ProjectController = require('./controllers/ProjectController')
-const authenticate = require('./middlewares/authenticate')
+const isAuthenticate = require('./middlewares/isAuthenticate')
 
 const router = Router()
 
@@ -12,7 +12,8 @@ router.get('/', (request, response) => {
 
 router.post('/register', UserController.store)// rota de cadastro do usuario
 router.post('/login', UserController.login)// rota de login do usuario
+router.post('/githubAuth', UserController.githubAuth)// rota de login com github
 
-router.post('/newProject', authenticate, ProjectController.createProject)// Rota de criação de projeto
+router.post('/newProject', isAuthenticate, ProjectController.createProject)// Rota de criação de projeto
 
 export { router }
