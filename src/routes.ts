@@ -1,8 +1,15 @@
 import { Router } from 'express'
 
-const UserController = require('./controllers/UserController')
-const ProjectController = require('./controllers/ProjectController')
-const isAuthenticate = require('./middlewares/isAuthenticate')
+import isAuthenticate from './middlewares/isAuthenticate'
+
+import { AuthenticateGithubController } from './useCase/authenticateGithub/authenticateGithubController'
+import { AuthenticateUserController } from './useCase/authenticateUser/AuthenticateUserController'
+import { CreateUserController } from './useCase/createUser/CreateUserController'
+
+// controllers
+const createUserController = new CreateUserController()
+const authUserController = new AuthenticateUserController()
+const authGithub = new AuthenticateGithubController()
 
 const router = Router()
 
@@ -10,10 +17,10 @@ router.get('/', (request, response) => {
   response.send('Oi, você vem sempre aqui?')// rota de teste
 })
 
-router.post('/register', UserController.store)// rota de cadastro do usuario
-router.post('/login', UserController.login)// rota de login do usuario
-router.post('/githubAuth', UserController.githubAuth)// rota de login com github
+router.post('/register', createUserController.handle)// rota de cadastro do usuario
+router.post('/login', authUserController.handle)// rota de login do usuario
+router.post('/githubAuth', authGithub.handle)// rota de login com github
 
-router.post('/newProject', isAuthenticate, ProjectController.createProject)// Rota de criação de projeto
+router.post('/newProject', isAuthenticate)// Rota de criação de projeto
 
-export { router }
+export default router
