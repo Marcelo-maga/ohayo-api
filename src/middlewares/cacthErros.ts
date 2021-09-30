@@ -9,4 +9,4 @@ async function catchErros (error: Error, request: Request, response: Response, n
   )
 }
 
-export { catchErros }
+export default catchErros

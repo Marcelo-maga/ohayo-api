@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 import env from '../config/env'
 
-module.exports = (request: Request, response: Response, next: NextFunction) => {
+async function isAuthenticate (request: Request, response: Response, next: NextFunction) {
   const requestAuthToken = request.headers.authorization
   // verifica se chegou um token
   if (!requestAuthToken) {
@@ -22,3 +22,5 @@ module.exports = (request: Request, response: Response, next: NextFunction) => {
     })
   }
 }
+
+export default isAuthenticate
