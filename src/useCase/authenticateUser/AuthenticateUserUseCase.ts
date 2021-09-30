@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs'
 import { client } from '../../prisma/client'
 import { sign } from 'jsonwebtoken'
-import { env } from 'process'
+import env from '../../config/env'
 
 interface IUserRequest {
   email: string,
