@@ -1,4 +1,4 @@
-import { client } from '../../prisma/client'
+import { client } from '../../prisma'
 import { hash } from 'bcryptjs'
 
 interface IUserRequest {
@@ -9,7 +9,7 @@ interface IUserRequest {
 class CreateUserUseCase {
   async store ({ email, password }: IUserRequest) {
     // Verifica se o email já foi cadastrado na plataforma
-    const userEmailExisits = await client.user.findFirst({ where: { email } })
+    const userEmailExisits = await client.user.findFirst({ where: { email: email } })
 
     if (userEmailExisits) {
       throw new Error('Usuario já existe')
