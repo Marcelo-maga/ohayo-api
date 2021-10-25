@@ -2,8 +2,8 @@ import jwtDecode from 'jwt-decode'
 import { client } from '../../prisma'
 
 interface IJwtDecode {
+  id: number,
   email: string
-  id: number
 }
 
 class CreateProjectUseCase {
@@ -18,11 +18,17 @@ class CreateProjectUseCase {
       throw new Error('Projeto Já Criado')
     }
 
-    const newProject = await client.project.create({
+    const newProject = await client.user.update({
+      where: {
+        id: jwtUserDecode.id
+      },
       data: {
-        name: projectName,
-        desc: projectDesc,
-        userId: jwtUserDecode.id
+        projects: {
+          create: {
+            name: projectName,
+            desc: projectDesc
+          }
+        }
       }
     })
 
