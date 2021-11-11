@@ -15,41 +15,18 @@ model User {
   email        String?       @unique
   password     String?
 
-  acessTokenGH String?
-
-  profile      Profile[]
   projects     Project[]
-  refreshToken RefreshToken?
 
   @@map("users")
 }
 
-model RefreshToken {
-  id        Int  @id @default(autoincrement())
-  expiresIn Int
-  user      User @relation(fields: [userId], references: [id])
-  userId    Int
-
-  @@map("refreshToken")
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  name   String?
-  bio    String?
-  photo  String?
- 
-
-  userId Int     @unique
-  user   User    @relation(fields: [userId], references: [id])
-
-  @@map("profiles")
-}
 
 model Project {
   id     Int     @id @default(autoincrement())
   name   String  
   desc   String?
+
+  color  String
 
   userId Int     
   user   User    @relation(fields: [userId], references: [id])

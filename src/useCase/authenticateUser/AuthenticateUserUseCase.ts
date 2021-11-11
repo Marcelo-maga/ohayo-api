@@ -1,5 +1,5 @@
 import { compare } from 'bcryptjs'
-import { client } from '../../prisma/client'
+import { client } from '../../prisma'
 import { sign } from 'jsonwebtoken'
 import env from '../../config/env'
 
