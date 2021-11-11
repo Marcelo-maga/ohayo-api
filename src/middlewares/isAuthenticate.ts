@@ -2,18 +2,25 @@ import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 import env from '../config/env'
 
+interface tokenType {
+  token: string
+}
+
 async function isAuthenticate (request: Request, response: Response, next: NextFunction) {
   const requestAuthToken = request.headers.authorization
+
+  const decodeToken: tokenType = JSON.parse(requestAuthToken)
+
   // verifica se chegou um token
-  if (!requestAuthToken) {
+  if (!decodeToken) {
     return response.status(401).json({
       message: 'Sem token!'
     })
   }
-  const [, token] = requestAuthToken.split(' ')
+
   try {
     // verifica se o token é valido
-    verify(token, env.JWT_SECRET)
+    verify(decodeToken.token, env.JWT_SECRET)
     return next() // continua para a proxima função
   } catch (error) {
     console.log(error)
