@@ -2,32 +2,31 @@ import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 import env from '../config/env'
 
-interface tokenType {
+interface IToken {
   token: string
 }
 
 async function isAuthenticate (request: Request, response: Response, next: NextFunction) {
-  const requestAuthToken = request.headers.authorization
+  const authToken = request.headers.authorization
 
-  const decodeToken: tokenType = JSON.parse(requestAuthToken)
+  const token: IToken = JSON.parse(authToken)
 
-  // verifica se chegou um token
-  if (!decodeToken) {
+  if (!token) {
     return response.status(401).json({
-      message: 'Sem token!'
+      errorCode: 'token.invalid'
     })
   }
 
+  // const [, token] = authToken.split(' ')
+
   try {
-    // verifica se o token é valido
-    verify(decodeToken.token, env.JWT_SECRET)
-    return next() // continua para a proxima função
-  } catch (error) {
-    console.log(error)
+    verify(token.token, env.JWT_SECRET)
+    return next()
+  } catch (err) {
     return response.status(401).json({
-      error: 'Token invalido'
+      error: err.message
     })
   }
 }
 
-export default isAuthenticate
+export { isAuthenticate }
