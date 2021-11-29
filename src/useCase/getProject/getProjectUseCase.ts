@@ -8,8 +8,6 @@ class GetProjectUseCase {
       }
     })
 
-    console.log(response)
-
     return response
   }
 }
