@@ -16,18 +16,42 @@ model User {
   password     String?
 
   projects     Project[]
+  refreshToken RefreshToken?
 
   @@map("users")
 }
 
+model RefreshToken {
+  id        Int @id @default(autoincrement())
+  expiresIn Int
+
+  userId    Int     
+  user      User    @relation(fields: [userId], references: [id])
+
+  @@map("refreshToken")
+}
 
 model Project {
-  id     String     @id @default(uuid())
-  name   String  
-  desc   String?
+  id         String     @id @default(uuid())
+  name       String  
+  desc       String?
 
-  userId Int     
-  user   User    @relation(fields: [userId], references: [id])
+  complete   Boolean    @default(false)
+  timeWorked Float
+
+  toDoList   ToDoList[]
+
+  userId     Int     
+  user       User       @relation(fields: [userId], references: [id])
 
   @@map("projects")
+}
+
+model ToDoList {
+  id          Int @id @default(autoincrement())
+  name        String
+  complete    Boolean
+
+  projectId   String
+  project     Project @relation(fields: [projectId], references: [id])
 }
