@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "projects" ALTER COLUMN "timeWorked" SET DATA TYPE DOUBLE PRECISION;
