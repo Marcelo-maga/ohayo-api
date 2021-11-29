@@ -1,5 +1,7 @@
 import { client } from '../../prisma'
 import { hash } from 'bcryptjs'
+import { sign } from 'jsonwebtoken'
+import env from '@config/env'
 
 interface IUserRequest {
   email: string,
@@ -20,17 +22,15 @@ class CreateUserUseCase {
     const userCreate = await client.user.create({
       data: {
         email,
-        password: passwordCrypt,
-        profile: {
-          create: {
-            name: null,
-            bio: null
-          }
-        }
+        password: passwordCrypt
       }
     })
 
-    return userCreate
+    const token = sign({ id: userEmailExisits.id, email: userEmailExisits.email }, env.JWT_SECRET, {
+      expiresIn: '24h'
+    })
+
+    return { userCreate, token }
   }
 }
 
