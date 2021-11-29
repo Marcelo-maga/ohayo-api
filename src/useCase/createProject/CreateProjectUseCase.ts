@@ -1,3 +1,4 @@
+
 import jwtDecode from 'jwt-decode'
 import { client } from '../../prisma'
 
@@ -26,7 +27,8 @@ class CreateProjectUseCase {
         projects: {
           create: {
             name: projectName,
-            desc: projectDesc
+            desc: projectDesc,
+            timeWorked: 0
           }
         }
       }
