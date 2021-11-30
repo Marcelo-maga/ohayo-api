@@ -1,7 +1,6 @@
 import { client } from '../../prisma'
 import { hash } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
-import env from '@config/env'
 
 interface IUserRequest {
   email: string,
@@ -26,7 +25,7 @@ class CreateUserUseCase {
       }
     })
 
-    const token = sign({ id: userEmailExisits.id, email: userEmailExisits.email }, env.JWT_SECRET, {
+    const token = sign({ id: userEmailExisits.id, email: userEmailExisits.email }, process.env.JWT_SECRET, {
       expiresIn: '24h'
     })
 
