@@ -18,5 +18,5 @@ app.use(router)
 app.use(catchErros)
 
 app.listen(env.port, () => {
-  console.log(`http://localhost:${env.port}`)
+  console.log(`http://localhost:${process.env.port}`)
 })
