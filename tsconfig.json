@@ -15,12 +15,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,             
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "@controllers/*": ["./src/controllers/*"],
-      "@models/*": ["./src/db/models/*"],
-      "@config/*": ["./src/config/*"]
-    }
+    "baseUrl": "."
   },
   "include": [
     "src/**/*"
