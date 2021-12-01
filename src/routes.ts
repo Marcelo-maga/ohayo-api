@@ -2,26 +2,29 @@ import { Router } from 'express'
 
 import { isAuthenticate } from './middlewares/isAuthenticate'
 
-import { AuthenticateUserController } from './useCase/authenticateUser/AuthenticateUserController'
-import { CreateProjectController } from './useCase/createProject/CreateProjectController'
-import { CreateUserController } from './useCase/createUser/CreateUserController'
-import { CompleteProjectController } from './useCase/completeProject/completeProjectController'
-import { GetAllProjectsUserController } from './useCase/getAllProjectsUser/getAllProjectsUserController'
-import { GetProjectController } from './useCase/getProject/getProjectController'
-import { TotalHourController } from './useCase/totalHours/totalHoursController'
-import { CreateToDoController } from './useCase/createToDo/CreateToDoController'
-import { GetToDoController } from './useCase/getToDoList/GetToDoController'
+import { CreateUserController } from './controllers/CreateUserController'
+import { AuthController } from './controllers/AuthController'
+import { CreateProjectController } from './controllers/CreateProjectController'
+import { GetAllProjectsUserController } from './controllers/GetAllProjectsUserController'
+import { GetProjectController } from './controllers/GetProjectController'
+import { NewTimeWorkedController } from './controllers/NewTimeWorkedController'
+import { CompleteProjectController } from './controllers/CompleteProjectController'
+import { CreateToDoController } from './controllers/CreateToDoController'
+import { GetToDoController } from './controllers/GetToDoListController'
+import { CompleteToDoController } from './controllers/CompleteToDoController'
 
 // controllers
 const createUserController = new CreateUserController()
-const authUserController = new AuthenticateUserController()
+const authUserController = new AuthController()
+
 const createProject = new CreateProjectController()
 const getAllProjects = new GetAllProjectsUserController()
 const getProject = new GetProjectController()
-const hourCounter = new TotalHourController()
-const editProject = new CompleteProjectController()
+const hourCounter = new NewTimeWorkedController()
+const completeProject = new CompleteProjectController()
 const createToDo = new CreateToDoController()
 const getToDo = new GetToDoController()
+const completeToDo = new CompleteToDoController()
 
 const router = Router()
 
@@ -36,8 +39,9 @@ router.post('/newProject', isAuthenticate, createProject.handle)// Rota de cria√
 router.get('/getAllProjects', isAuthenticate, getAllProjects.handle)
 router.get('/getProject/:id', isAuthenticate, getProject.handle)
 router.post('/newTotalHours', isAuthenticate, hourCounter.handle)
-router.post('/completeProject/:id', isAuthenticate, editProject.handle)
+router.post('/completeProject/:id', isAuthenticate, completeProject.handle)
 router.post('/newToDoIten/:id', isAuthenticate, createToDo.handle)
 router.get('/getToDo/:id', isAuthenticate, getToDo.handle)
+router.post('/completeToDo/:id', isAuthenticate, completeToDo.handle)
 
-export default router
+export { router }

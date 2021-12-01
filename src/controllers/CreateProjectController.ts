@@ -1,14 +1,18 @@
-
+import { Request, Response } from 'express'
 import jwtDecode from 'jwt-decode'
-import { client } from '../../prisma'
+import { client } from '../prisma'
 
 interface IJwtDecode {
   id: number,
   email: string
 }
 
-class CreateProjectUseCase {
-  async handle (jwtTokenUser: string, projectName: string, projectDesc: string) {
+class CreateProjectController {
+  async handle (request: Request, response: Response) {
+    const jwtTokenUser = request.headers.authorization // Pega o token que vem com a requisição
+
+    const { projectName, projectDesc } = request.body
+
     const jwtUserDecode = jwtDecode<IJwtDecode>(jwtTokenUser) // Decodifica o token e pega as informações
 
     const project = await client.project.findFirst({
@@ -16,10 +20,12 @@ class CreateProjectUseCase {
     }) // faz uma busca na tabela de projetos, procurando um projeto com o mesmo nome, no mesmo usuario
 
     if (project) {
-      throw new Error('Projeto Já Criado')
+      response.status(406)
+      response.json({ msg: 'Projeto Já Criado' })
+      return
     }
 
-    const newProject = await client.user.update({
+    await client.user.update({
       where: {
         id: jwtUserDecode.id
       },
@@ -34,8 +40,8 @@ class CreateProjectUseCase {
       }
     })
 
-    return newProject
+    return response.json({ msg: 'Projeto criado com sucesso!' }).status(200)
   }
 }
 
-export { CreateProjectUseCase }
+export { CreateProjectController }
