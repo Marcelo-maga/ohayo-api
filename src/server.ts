@@ -12,6 +12,6 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(router)
 
-app.listen(process.env.port, () => {
+app.listen(process.env.PORT, () => {
   console.log('Estamos no ar')
 })
